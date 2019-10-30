@@ -1,0 +1,6 @@
+label: dos
+label-id: 0x1d031085
+device: testFS.bin
+unit: sectors
+
+testFS.bin1 : start=        2048, size=       17952, type=83

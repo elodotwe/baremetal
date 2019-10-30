@@ -1,13 +1,16 @@
-all: boot.bin
+all: outputFS.bin
 
-boot.bin: boot.o
-	ld -o boot.bin --oformat binary -e init -Ttext 0x7c00 boot.o
+outputFS.bin: stage1.bin
+	./buildImage.sh
 
-boot.o: boot.s
-	as -o boot.o boot.s
+stage1.bin: stage1.o
+	ld -o stage1.bin --oformat binary -e init -Ttext 0x7c00 stage1.o
+
+stage1.o: stage1.s
+	as -o stage1.o stage1.s
 
 clean:
-	rm boot.o boot.bin
+	rm *.o *.bin
 
-run: boot.bin
-	qemu-system-x86_64 boot.bin
+run: outputFS.bin
+	qemu-system-x86_64 -drive format=raw,file=outputFS.bin
